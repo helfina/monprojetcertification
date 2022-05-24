@@ -4,8 +4,11 @@ namespace App\Form;
 
 use App\Entity\Calendar;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,18 +17,66 @@ class CalendarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
+            ->add('title', TextType::class,[
+                'label' => 'Title',
+                'attr' => [
+                    'placeholder' => 'Title',
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating m-2',
+                ],
+            ])
             ->add('start', DateTimeType::class,[
-                'date_widget' => 'single_text'
+                'date_widget' => 'single_text',
+                'label' => 'Date début',
+                'row_attr' => [
+                    'class' => 'form-control m-2',
+                ],
             ])
             ->add('end', DateTimeType::class,[
-                'date_widget' => 'single_text'
+                'date_widget' => 'single_text',
+                'label' => 'Date de fin',
+                'row_attr' => [
+                    'class' => 'form-control m-2',
+                ],
             ])
-            ->add('description')
-            ->add('all_day')
-            ->add('bacground_color', ColorType::class)
-            ->add('border_color', ColorType::class)
-            ->add('text_color', ColorType::class)
+            ->add('description', TextareaType::class,[
+                'label' => 'Description',
+                'attr' => [
+                    'placeholder' => 'Description',
+                ],
+                'row_attr' => [
+                    'class' => 'form-floating m-1',
+                ],
+            ])
+            ->add('all_day', CheckboxType::class,[
+                'label' => 'Toute la journée ',
+                'row_attr' => [
+                    'class' => 'form-check form-switch form-control m-2',
+                ],
+
+            ])
+            ->add('bacground_color', ColorType::class,[
+                'label' => 'Couleur de fond',
+
+                'row_attr' => [
+                    'class' => 'form-control m-2',
+                ],
+            ])
+            ->add('border_color', ColorType::class,[
+                'label' => 'Bordure',
+
+                'row_attr' => [
+                    'class' => 'form-control m-2',
+                ],
+            ])
+            ->add('text_color', ColorType::class,[
+                'label' => 'Couleur du texte',
+
+                'row_attr' => [
+                    'class' => 'form-control m-2',
+                ],
+            ])
         ;
     }
 
