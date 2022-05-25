@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Agenda;
+use App\Form\AgendaType;
 use App\Repository\AgendaRepository;
-use phpDocumentor\Reflection\Types\AggregatedType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,9 +55,15 @@ class AgendaController extends AbstractController
     #[Route('/agenda/edit/{id}', name: 'app_agenda_edit')]
     public function edit(Request $request, Agenda $agenda, AgendaRepository $agendaRepository): Response
     {
-        $form =$this->createForm(AggregatedType::class, $agenda);
+        $form =$this->createForm(AgendaType::class, $agenda);
+        $form->handleRequest($request);
 
-        return $this->render('agenda/show.html.twig', [
+        if ($form->isSubmitted() && $form->isValid()) {
+            $agendaRepository->add($agenda, true);
+
+            return $this->redirectToRoute('app_agenda_liste', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('agenda/edit.html.twig', [
             'event' => $agenda,
             'form' => $form
         ]);
