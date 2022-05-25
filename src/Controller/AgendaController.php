@@ -89,6 +89,14 @@ class AgendaController extends AbstractController
         ]);
     }
 
+    #[Route('/agenda/delete/{id}', name: 'app_agenda_delete')]
+    public function delete(Request $request, Agenda $agenda, AgendaRepository $agendaRepository): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$agenda->getId(), $request->request->get('_token'))) {
+            $agendaRepository->remove($agenda, true);
+        }
 
+        return $this->redirectToRoute('app_agenda_liste', [], Response::HTTP_SEE_OTHER);
+    }
 
 }
