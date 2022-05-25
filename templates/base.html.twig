@@ -2,12 +2,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>{% block title %}Welcome!{% endblock %}</title>
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
     {#  CHARGEMENT DES LIBRARY   #}
     <link href="{{ asset('lib/BootstrapV5.2/css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/FullCalendar/main.css') }}" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{{ asset('lib/DataTables/datatables.min.css') }}"/>
+
 
     {#  CHARGEMENT DES STYLES   #}
     <link href="{{ asset('css/calendrier.css') }}" rel="stylesheet">
@@ -22,11 +25,14 @@
 {{ include('footer.html.twig') }}
 
 {#  CHARGEMENT DES LIBRARY   #}
-<script src="{{ asset('lib/BootstrapV5.2/js/bootstrap.js') }}"></script>
 <script src="{{ asset('lib/jquery.js') }}"></script>
+<script src="{{ asset('lib/poper.min.js') }}"></script>
+
+<script src="{{ asset('lib/BootstrapV5.2/js/bootstrap.js') }}"></script>
+
 <script src="{{ asset('lib/FullCalendar/main.js') }}"></script>
 <script src="{{ asset('lib/FullCalendar/locales-all.js') }}"></script>
-<script type="text/javascript" src="{{ asset('lib/DataTables/datatables.min.js') }}"></script>
+
 
 </body>
 </html>
