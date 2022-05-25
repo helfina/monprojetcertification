@@ -32,7 +32,7 @@
                         <td>{{ event.textColor }}</td>
                         <td>
                             <a class="btn btn-info" href="{{ path('app_agenda_show', {'id': event.id}) }}">show</a>
-{#                            <a class="btn btn-warning" href="{{ path('app_agenda_edit', {'id': agenda.id}) }}">edit</a>#}
+                            <a class="btn btn-warning" href="{{ path('app_agenda_edit', {'id': event.id}) }}">edit</a>
                         </td>
                     </tr>
                 {% else %}
