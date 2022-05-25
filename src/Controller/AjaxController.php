@@ -13,13 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/ajax')]
 class AjaxController extends AbstractController
 {
-    #[Route('/ajax', name: 'app_ajax')]
-    public function index(): Response
-    {
-        return $this->render('ajax/index.html.twig', [
-            'controller_name' => 'AjaxController',
-        ]);
-    }
+
 
     #[Route('/ajax/{id}/edit', name: 'app_ajax_event_edit')]
     public function updateEvent(?Calendar $calendar, Request $request, EntityManagerInterface $entityManager): Response
