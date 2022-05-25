@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+{% block title %}Liste des evenement{% endblock %}
+{% block body %}
+    <section class="container">
+
+        <h1>Liste</h1>
+        <div  id="table" class="table-responsive m-auto">
+            <table  class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Description</th>
+                    <th>All_day</th>
+                    <th>Background_color</th>
+                    <th>Text_color</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event.id }}</td>
+                        <td>{{ event.title }}</td>
+                        <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ event.description }}</td>
+                        <td>{{ event.allDay ? 'Yes' : 'No' }}</td>
+                        <td>{{ event.backgroundColor }}</td>
+                        <td>{{ event.textColor }}</td>
+                        <td>
+                            <a class="btn btn-info" href="{{ path('app_agenda_show', {'id': event.id}) }}">show</a>
+{#                            <a class="btn btn-warning" href="{{ path('app_agenda_edit', {'id': agenda.id}) }}">edit</a>#}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="10">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+{% endblock %}
+
+
+
