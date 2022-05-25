@@ -6,6 +6,7 @@ use App\Entity\Agenda;
 use App\Form\AgendaType;
 use App\Repository\AgendaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,6 +38,24 @@ class AgendaController extends AbstractController
         return $this->render('agenda/index.html.twig', compact('data'));
     }
 
+    #[Route('/agenda/new', name: 'app_agenda_new')]
+    public function new(Request $request, AgendaRepository $agendaRepository): Response
+    {
+        $agenda = new Agenda();
+        $form= $this->createForm(AgendaType::class, $agenda);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $agendaRepository->add($agenda, true);
+
+            return $this->redirectToRoute('app_agenda_liste', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('agenda/new.html.twig', [
+            'event' => $agenda,
+            'form' => $form
+        ]);
+    }
+
     #[Route('/agenda/liste', name: 'app_agenda_liste')]
     public function liste(AgendaRepository $agendaRepository): Response
     {
@@ -52,6 +71,7 @@ class AgendaController extends AbstractController
             'event' => $agenda,
         ]);
     }
+
     #[Route('/agenda/edit/{id}', name: 'app_agenda_edit')]
     public function edit(Request $request, Agenda $agenda, AgendaRepository $agendaRepository): Response
     {
@@ -68,4 +88,7 @@ class AgendaController extends AbstractController
             'form' => $form
         ]);
     }
+
+
+
 }

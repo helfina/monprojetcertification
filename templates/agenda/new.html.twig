@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+
+{% endblock %}
+{% block body %}
+    <h1>Create new  Event</h1>
+    <a href="{{ path('app_agenda_liste') }}">back to list</a>
+    <div>
+        {{ include('agenda/_form.html.twig') }}
+    </div>
+
+    {#    {{ include('agenda/_delete_form.html.twig') }}#}
+{% endblock %}
