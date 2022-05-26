@@ -3,11 +3,9 @@
 
 {% endblock %}
 {% block body %}
-    <h1>Create new  Event</h1>
-    <a href="{{ path('app_agenda_liste') }}">back to list</a>
-    <div>
-        {{ include('agenda/_form.html.twig') }}
+    <h1 class="text-center">Create new  Event</h1>
+    <a class="btn border-info m-2" href="{{ path('app_agenda_liste') }}"> <i class="fa-solid fa-circle-arrow-left">{# back to list#}</i></a>
+    <div class="row col-6 m-auto p-2 border border-primary">
+        {{ include('agenda/_form.html.twig', {'button_label': 'Save'}) }}
     </div>
-
-    {#    {{ include('agenda/_delete_form.html.twig') }}#}
 {% endblock %}

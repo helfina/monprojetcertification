@@ -4,15 +4,17 @@
 {% endblock %}
 {% block body %}
     <h1>Edit Event</h1>
-    <a href="{{ path('app_agenda_liste') }}">back to list</a>
+    <div class="d-flex ">
+    <a class="btn border-info m-2" href="{{ path('app_agenda_liste') }}">
+        <i class="fa-solid fa-circle-arrow-left">{# back to list#}</i>
+    </a>
+    {{ include('agenda/_delete_form.html.twig') }}
+    </div>
     <div>
         {{ include('agenda/_form.html.twig', {'button_label': 'Update'}) }}
     </div>
 
 
-
-
-{#    {{ include('agenda/_delete_form.html.twig') }}#}
 {% endblock %}
 
 

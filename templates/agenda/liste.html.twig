@@ -4,8 +4,8 @@
     <section class="container">
 
         <h1>Liste</h1>
-        <a class="btn btn-info" href="{{ path('app_agenda_new') }}">Ajoutez un nouvelle evenement</a>
-        <div  id="table" class="table-responsive m-auto">
+        <a class="btn border-info m-2" href="{{ path('app_agenda_new') }}"><i class="fa-solid fa-calendar-plus"></i></a>
+        <div  id="table" class=" table-responsive m-auto">
             <table  class="table table-striped">
                 <thead>
                 <tr>
@@ -31,9 +31,15 @@
                         <td>{{ event.allDay ? 'Yes' : 'No' }}</td>
                         <td>{{ event.backgroundColor }}</td>
                         <td>{{ event.textColor }}</td>
-                        <td>
-                            <a class="btn btn-info" href="{{ path('app_agenda_show', {'id': event.id}) }}">show</a>
-                            <a class="btn btn-warning" href="{{ path('app_agenda_edit', {'id': event.id}) }}">edit</a>
+                        <td class="d-flex">
+                            <a class="btn border-primary m-2" href="{{ path('app_agenda_show', {'id': event.id}) }}"><i class="fa-solid fa-eye"></i>
+                            </a>
+
+                            <a class="btn border-warning m-2" href="{{ path('app_agenda_edit', {'id': event.id}) }}">
+                                <i class="fa-solid fa-pencil"></i>
+                            </a>
+
+                            {{ include('agenda/_delete_form.html.twig') }}
                         </td>
                     </tr>
                 {% else %}
