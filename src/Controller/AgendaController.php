@@ -39,8 +39,10 @@ class AgendaController extends AbstractController
             foreach ($donnees as $donnee) {
                 foreach ($donnee as $key => $value) {
                     if ($donnee->start_date >= $annee && $donnee->population != "Enseignants" && $value == "Rennes") {
-
-                        $agenda = new Agenda();
+                        // On vérifie si l'id existe
+                        if(!$agenda){
+                            $agenda = new Agenda();
+                        }
 
                         $agenda->setTitle($donnee->description);
 
@@ -56,7 +58,6 @@ class AgendaController extends AbstractController
                         );
 
                         if ($this->isCsrfTokenValid('agenda' . $agenda->getId(), $request->request->get('_token'))) {
-                            dump($agenda);
                             $agendaRepository->add($agenda, true);
                         }
                     }
