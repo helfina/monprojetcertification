@@ -2,21 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\Calendar;
-use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Agenda;
+use App\Repository\AgendaRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
-#[Route('/ajax')]
+
 class AjaxController extends AbstractController
 {
 
-
-    #[Route('/ajax/{id}/edit', name: 'app_ajax_event_edit')]
-    public function updateEvent(?Calendar $calendar, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/ajax/edit/{id}', name: 'app_ajax_event_edit')]
+    public function updateEvent(?Agenda $agenda, Request $request,AgendaRepository $agendaRepository): Response
     {
         // On récupère les données
         $donnees = json_decode($request->getContent());
@@ -26,7 +25,6 @@ class AjaxController extends AbstractController
             isset($donnees->start) && !empty($donnees->start) &&
             isset($donnees->description) && !empty($donnees->description) &&
             isset($donnees->backgroundColor) && !empty($donnees->backgroundColor) &&
-            isset($donnees->borderColor) && !empty($donnees->borderColor) &&
             isset($donnees->textColor) && !empty($donnees->textColor)
         ){
             // Les données sont complètes
@@ -34,32 +32,33 @@ class AjaxController extends AbstractController
             $code = 200; //=> creations
 
             // On vérifie si l'id existe
-            if(!$calendar){
+            if(!$agenda){
                 // On instancie un rendez-vous
-                $calendar = new Calendar;
+                $agenda = new Agenda();
 
                 // On change le code
                 $code = 201; //=> j'ai crées
             }
 
             // On hydrate l'objet avec les données
-            $calendar->setTitle($donnees->title);
-            $calendar->setDescription($donnees->description);
-            $calendar->setStart(new DateTime($donnees->start));
+
+            $agenda->setTitle($donnees->title);
+            $agenda->setDescription($donnees->description);
+            $agenda->setStart(new DateTime($donnees->start));
             if($donnees->allDay){
-                $calendar->setEnd(new DateTime($donnees->start));
+                $agenda->setEnd(new DateTime($donnees->start));
             }else{
-                $calendar->setEnd(new DateTime($donnees->end));
+                $agenda->setEnd(new DateTime($donnees->end));
             }
-            $calendar->setAllDay($donnees->allDay);
-            $calendar->setBacgroundColor($donnees->backgroundColor);
-            $calendar->setBorderColor($donnees->borderColor);
-            $calendar->setTextColor($donnees->textColor);
+            $agenda->setAllDay($donnees->allDay);
+            $agenda->setBackgroundColor($donnees->backgroundColor);
+            $agenda->setTextColor($donnees->textColor);
 
             //$entityManager = $doctrine->getManager();
-            $entityManager->persist($calendar);
-            $entityManager->flush();
-            dump($entityManager);
+//            $entityManager->persist($calendar);
+//            $entityManager->flush();
+            $agendaRepository->add($agenda, true);
+//            dump($entityManager);
 
             // On retourne le code
             return new Response('Ok', $code);
