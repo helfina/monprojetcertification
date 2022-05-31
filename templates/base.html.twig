@@ -7,15 +7,25 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-    {#  CHARGEMENT DES LIBRARY   #}
-    <link href="{{ asset('lib/BootstrapV5.2/css/bootstrap.css') }}" rel="stylesheet">
+
+    {#  CHARGEMENT DES CDN LIBRARY   #}
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.12.1/af-2.4.0/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/cr-1.5.6/date-1.1.2/fc-4.1.0/fh-3.2.3/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.6/sb-1.3.3/sp-2.0.1/sl-1.4.0/sr-1.1.1/datatables.min.css"/>
+
+    {#  CHARGEMENT FONT - AWESOME   #}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+
     <link href="{{ asset('lib/FullCalendar/main.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {#  CHARGEMENT DES STYLES   #}
+
     <link href="{{ asset('css/calendrier.css') }}" rel="stylesheet">
 
 </head>
+
 <body class="container-fluid">
 
 {{ include('header.html.twig') }}
@@ -24,14 +34,23 @@
 
 {{ include('footer.html.twig') }}
 
-{#  CHARGEMENT DES LIBRARY   #}
-<script src="{{ asset('lib/jquery.js') }}"></script>
-<script src="{{ asset('lib/poper.min.js') }}"></script>
+    {#  CHARGEMENT DES LIBRARY   #}
+    <script src="{{ asset('lib/jquery.js') }}"></script>
 
-<script src="{{ asset('lib/BootstrapV5.2/js/bootstrap.js') }}"></script>
-<script src="{{ asset('lib/FullCalendar/main.js') }}"></script>
-<script src="{{ asset('lib/FullCalendar/locales-all.js') }}"></script>
+    <script src="{{ asset('lib/FullCalendar/main.js') }}"></script>
+    <script src="{{ asset('lib/FullCalendar/locales-all.js') }}"></script>
 
+    {#  CHARGEMENT DES CDN  LIBRARY   #}
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.12.1/af-2.4.0/b-2.2.3/b-colvis-2.2.3/b-html5-2.2.3/b-print-2.2.3/cr-1.5.6/date-1.1.2/fc-4.1.0/fh-3.2.3/kt-2.7.0/r-2.3.0/rg-1.2.0/rr-1.2.8/sc-2.0.6/sb-1.3.3/sp-2.0.1/sl-1.4.0/sr-1.1.1/datatables.min.js"></script>
+
+
+    {#  CHARGEMENT DES SCRIPT   #}
+
+    <script src="{{ asset('js/dataTablesListeAgenda.js') }}"></script>
 
 </body>
 </html>
