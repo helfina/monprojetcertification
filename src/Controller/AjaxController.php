@@ -19,7 +19,7 @@ class AjaxController extends AbstractController
     {
         // On récupère les données
         $donnees = json_decode($request->getContent());
-
+        // !TODO returne une erreur 500 revoir la requete
         if(
             isset($donnees->title) && !empty($donnees->title) &&
             isset($donnees->start) && !empty($donnees->start) &&

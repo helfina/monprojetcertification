@@ -17,6 +17,7 @@ class AgendaController extends AbstractController
     #[Route('/agenda', name: 'app_agenda')]
     public function index(?Agenda $agenda, AgendaRepository $agendaRepository, Request $request): Response
     {
+//        !TODO verifier la condition d'enregistrement en bdd
         $rdvs = [];
         $ch = curl_init();
         try {
@@ -56,7 +57,7 @@ class AgendaController extends AbstractController
                             $donnee->zones . "</br> années scolaire : " . $donnee->annee_scolaire
 
                         );
-
+//                        $agendaRepository->add($agenda, true);
                         if ($this->isCsrfTokenValid('agenda' . $agenda->getId(), $request->request->get('_token'))) {
                             $agendaRepository->add($agenda, true);
                         }
