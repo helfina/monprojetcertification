@@ -14,6 +14,13 @@
             window.onload = () => {
                 let calendarElt = document.querySelector("#calendrier")
                 let calendar = new FullCalendar.Calendar(calendarElt, {
+                    titleFormat: { // will produce something like "Tuesday, September 18, 2018"
+                        month: 'long',
+                        year: 'numeric',
+                        day: 'numeric',
+                        // weekday: 'long',
+                        week: 'numeric'
+                    },
                     initialView: 'dayGridMonth',
                     locale: 'fr',
                     timeZone: 'Europe/Paris',
