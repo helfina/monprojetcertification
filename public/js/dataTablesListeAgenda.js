@@ -1,6 +1,11 @@
 $(document).ready( function () {
     $('#table').DataTable({
+        searching: true,
+        select: true,
         order: [[2, 'asc']],
+        responsive: true,
+        dom: '<"TopTable"lBfr>t<"bottomTable"ip>',
+        buttons: ['excel', 'pdf', 'copy'],
         language: {
             url: '//cdn.datatables.net/plug-ins/1.10.16/i18n/French.json',
             buttons: {
@@ -11,10 +16,8 @@ $(document).ready( function () {
                 }
             }
         },
-        dom: 'lBtip',
-        responsive: true,
-        buttons: ['excel', 'pdf', 'copy'],
-        select: true,
+
+
         columnDefs: [
             {
                 target: 0,
