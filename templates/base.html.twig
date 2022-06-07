@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{ include('includes/meta.html.twig') }}
 
 {# !TODO installer ce datatable editeur https://editor.datatables.net/manual/php/installing en remplacement du datatable existant
 #}
@@ -31,11 +31,11 @@
 
 <body class="container-fluid">
 
-{{ include('header.html.twig') }}
+{{ include('includes/header.html.twig') }}
 
 {% block body %}{% endblock %}
 
-{{ include('footer.html.twig') }}
+{{ include('includes/footer.html.twig') }}
 
     {#  CHARGEMENT DES LIBRARY   #}
     <script src="{{ asset('lib/jquery.js') }}"></script>
