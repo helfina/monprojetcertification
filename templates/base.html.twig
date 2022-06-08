@@ -34,7 +34,13 @@
 {{ include('includes/header.html.twig') }}
 
 {% block body %}{% endblock %}
-
+{% if app.user  and app.user.isVerified == false %}
+    <section class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+        <p class="alert-message"><strong>Votre compte n'est pas activer</strong>, renvoyer le liens d'activation </p>
+    </section>
+{% endif %}
+{{ include('includes/flash.html.twig') }}
 {{ include('includes/footer.html.twig') }}
 
     {#  CHARGEMENT DES LIBRARY   #}
