@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,6 +11,6 @@ class UsersController extends AbstractController
     #[Route('/users', name: 'app_users')]
     public function index(): Response
     {
-        return $this->render('users/index.html.twig');
+        return $this->render('admin/users/index.html.twig');
     }
 }
