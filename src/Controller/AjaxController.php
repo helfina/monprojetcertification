@@ -8,8 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
-
+use DateTime;
 
 class AjaxController extends AbstractController
 {
@@ -17,6 +16,7 @@ class AjaxController extends AbstractController
     #[Route('/ajax/edit/{id}', name: 'app_ajax_event_edit')]
     public function updateEvent(?Agenda $agenda, Request $request,AgendaRepository $agendaRepository): Response
     {
+
         // On récupère les données
         $donnees = json_decode($request->getContent());
         // !TODO returne une erreur 500 revoir la requete
@@ -45,27 +45,26 @@ class AjaxController extends AbstractController
             $agenda->setTitle($donnees->title);
             $agenda->setDescription($donnees->description);
             $agenda->setStart(new DateTime($donnees->start));
-            if($donnees->allDay){
+            if($donnees->all_day){
                 $agenda->setEnd(new DateTime($donnees->start));
             }else{
                 $agenda->setEnd(new DateTime($donnees->end));
             }
-            $agenda->setAllDay($donnees->allDay);
             $agenda->setBackgroundColor($donnees->backgroundColor);
             $agenda->setTextColor($donnees->textColor);
+            $agenda->setAllDay($donnees->all_day);
 
             //$entityManager = $doctrine->getManager();
 //            $entityManager->persist($calendar);
 //            $entityManager->flush();
             $agendaRepository->add($agenda, true);
 //            dump($entityManager);
-
+                dump($agenda);
             // On retourne le code
             return new Response('Ok', $code);
         }else{
             // Les données sont incomplètes
             return new Response('Données incomplètes', 404);
         }
-
     }
 }
