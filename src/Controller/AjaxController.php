@@ -19,7 +19,6 @@ class AjaxController extends AbstractController
 
         // On récupère les données
         $donnees = json_decode($request->getContent());
-        // !TODO returne une erreur 500 revoir la requete
         if(
             isset($donnees->title) && !empty($donnees->title) &&
             isset($donnees->start) && !empty($donnees->start) &&
@@ -54,12 +53,8 @@ class AjaxController extends AbstractController
             $agenda->setTextColor($donnees->textColor);
             $agenda->setAllDay($donnees->all_day);
 
-            //$entityManager = $doctrine->getManager();
-//            $entityManager->persist($calendar);
-//            $entityManager->flush();
             $agendaRepository->add($agenda, true);
-//            dump($entityManager);
-                dump($agenda);
+
             // On retourne le code
             return new Response('Ok', $code);
         }else{
