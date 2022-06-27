@@ -4,7 +4,7 @@
 
 {% block body %}
 
-    <section class="container m-auto">
+    <section class="container-fluid m-auto">
         <div id="calendrier" class="m-2"></div>
     </section>
 
@@ -14,73 +14,47 @@
             window.onload = () => {
                 let calendarElt = document.querySelector("#calendrier")
                 let calendar = new FullCalendar.Calendar(calendarElt, {
-                    titleFormat: { // will produce something like "Tuesday, September 18, 2018"
-                        month: 'long',
-                        year: 'numeric',
-                        day: 'numeric',
-                        // weekday: 'long',
-                        week: 'numeric'
-                    },
                     initialView: 'dayGridMonth',
                     locale: 'fr',
                     timeZone: 'Europe/Paris',
                     nowIndicator: true,
                     headerToolbar: {
-                        start: 'prevYear,prev,next,nextYear today',
+                        start: 'prevYear,prev,next,nextYear',
                         center: 'title',
                         end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
                     },
                     events: {{ data|raw }},
-                    editable: true,
-                    selectable: true,
-                    selectMirror: true,
+                    // editable: true,
                     dayMaxEvents: true,
-                    // select: function(arg) {
-                    //     var title = prompt('Event Title:');
-                    //     if (title) {
-                    //         calendar.addEvent({
-                    //             title: title,
-                    //             start: arg.start,
-                    //             end: arg.end,
-                    //             allDay: arg.allDay
-                    //         })
-                    //     }
-                    //     calendar.unselect()
-                    // },
-                    // eventClick: function(arg) {
-                    //     if (confirm('Are you sure you want to delete this event?')) {
-                    //         arg.event.remove()
-                    //     }
-                    // },
                     eventResizableFromStart: true,
                     navLinks: true, // can click day/week names to navigate views
                     weekNumbers: true,
-                    weekNumberCalculation: 'local',
-
                 });
 
-                // deplacement au clicker glisser des evenement
-                calendar.on('eventChange', (e) => {
-                    //console.log(e)
+                // deplacement au clicker glisser des evenement fonctionelle
+                // calendar.on('eventChange', (e) => {
+                //     console.log(e);
+                //
+                //     //requete ajax pour enregistrer les donnee en bdd a chaque deplacement
+                //     let url = `/ajax/edit/${e.event.id}`;
+                //     console.log(url);
+                //     let donnees = {
+                //         "id" : e.event.id,
+                //         "title": e.event.title,
+                //         "description": e.event.extendedProps.description,
+                //         "start": e.event.start,
+                //         "end": e.event.end,
+                //         "backgroundColor": e.event.backgroundColor,
+                //         "textColor": e.event.textColor,
+                //         "all_day": e.event.allDay
+                //     }
+                //
+                //     let xhr = new XMLHttpRequest
+                //     xhr.open("PUT", url)
+                //     xhr.send(JSON.stringify(donnees))
+                //
+                // });
 
-                    //requete ajax pour enregistrer les donnee en bdd a chaque deplacement
-                    let url = `/ajax/edit/${e.event.id}`
-                    let donnees = {
-                        "title": e.event.title,
-                        "description": e.event.extendedProps.description,
-                        "start": e.event.start,
-                        "end": e.event.end,
-                        "backgroundColor": e.event.backgroundColor,
-                        "borderColor": e.event.borderColor,
-                        "textColor": e.event.textColor,
-                        "allDay": e.event.allDay
-                    }
-                    //console.log(donnees);
-                    let xhr = new XMLHttpRequest
-                    xhr.open("PUT", url)
-                    xhr.send(JSON.stringify(donnees))
-
-                });
                 calendar.render()
             }
         </script>
