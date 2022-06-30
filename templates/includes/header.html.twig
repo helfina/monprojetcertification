@@ -11,6 +11,8 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="{{ path('app_home') }}">Home</a>
             </li>
+
+            {%  if app.user %}
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Agenda
@@ -22,13 +24,15 @@
                 <li><a class="dropdown-item" href="{{ path('app_agenda_new') }}">Ajout</a></li>
               </ul>
             </li>
+            {%  endif %}
           </ul>
           <div class="ms-auto">
-            {% if app.user %}
+            {% if app.user   %}
+
               <a class="btn btn-primary"  href="{{ path('app_users') }}">Mon profil</a>
-{#              {% if is_granted %}#}
-{#              <a class="btn btn-primary"  href="{{ path('app_admin') }}">Administration</a>#}
-{#               {% endif %}#}
+                {% if app.user.roles[0] == "ROLE_ADMIN" %}
+                   <a class="btn btn-primary"  href="{{ path('app_admin') }}">Administration</a>
+                {% endif %}
               <a class="btn btn-primary"  href="{{ path('app_logout') }}">Deconnexion</a>
             {% else %}
               <a class="btn btn-primary"  href="{{ path('app_register') }}">Inscription</a>
