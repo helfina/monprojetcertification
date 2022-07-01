@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Agenda;
 use App\Form\AgendaType;
 use App\Repository\AgendaRepository;
+use App\Repository\CalendrierVacScolaireRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +15,10 @@ class AgendaController extends AbstractController
 {
 
     #[Route('/agenda', name: 'app_agenda')]
-    public function index(AgendaRepository $agendaRepository): Response
+    public function index(AgendaRepository $agendaRepository, CalendrierVacScolaireRepository $calendrierVacScolaireRepository): Response
     {
         $events = $agendaRepository->findAll();
+        $eventsVac = $calendrierVacScolaireRepository->findAll();
 
         foreach ($events as $event) {
             $rdvs[] = [
@@ -29,6 +31,22 @@ class AgendaController extends AbstractController
                 'textColor' => $event->getTextColor(),
                 'allDay' => $event->isAllDay(),
             ];
+        }
+        foreach ($eventsVac as $eventVac) {
+
+            if($eventVac->getLocation() == "Rennes" && $eventVac->getZones() == "Zone B" &&  $eventVac->getPopulation() == "-" || $eventVac->getPopulation() == "Élèves" && $eventVac->getLocation() == "Rennes" && $eventVac->getZones() == "Zone B" ){
+//                dd($eventVac);
+                $rdvs[] = [
+                    'id' => $eventVac->getId(),
+                    'start' => $eventVac->getStartDate()->format('Y-m-d H:i:s'),
+                    'end' => $eventVac->getEndDate()->format('Y-m-d H:i:s'),
+                    'title' => $eventVac->getDescription() . " / " . $eventVac->getPopulation(),
+                    'description' => $eventVac->getDescription(),
+                    'backgroundColor' => $eventVac->getBackColor(),
+                    'textColor' => '#000000',
+                    'allDay' => true,
+                ];
+            }
         }
 
         $data = json_encode($rdvs);
