@@ -42,9 +42,9 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="#!">Settings</a></li>
-                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                <li><a class="dropdown-item" href="{{ path('app_users') }}"">Mon Profil</a></li>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
             </ul>
         </li>
     </ul>
@@ -55,10 +55,14 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" href="index.html">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Dashboard
+                    <a class="nav-link" href="{{ path('app_home') }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                        Home
                     </a>
+{#                    <a class="nav-link" href="index.html">#}
+{#                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>#}
+{#                        Dashboard#}
+{#                    </a>#}
                     <div class="sb-sidenav-menu-heading">Interface</div>
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
@@ -175,7 +179,35 @@
                                 liste gestions utilisateur
                             </div>
                             <div class="card-body">
+                                <div  class="wrapper table-responsive m-auto">
+                                    <table  id="tableUser" class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Email</th>
+                                            <th>Role</th>
+                                            <th>action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for user in users %}
+                                            <tr>
+                                                <td>{{ user.id }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td >
+                                                    {% for role in user.roles %}
+                                                        <span>{{ role }}</span>
+                                                    {% endfor %}
+                                                </td>
 
+                                            </tr>
+                                            <tr>
+                                                <td colspan="10">no records found</td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
                              </div>
                         </div>
                     </div>
@@ -198,60 +230,52 @@
                         Liste des evenement de l'agenda
                     </div>
                     <div class="card-body">
-                        <table id="datatablesSimple">
-                            <thead>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Description</th>
-                            <th>All_day</th>
-                            <th>Background_color</th>
-                            <th>Text_color</th>
-                            <th>actions</th>
-                            </thead>
-                            <tfoot>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Description</th>
-                            <th>All_day</th>
-                            <th>Background_color</th>
-                            <th>Text_color</th>
-                            <th>actions</th>
-                            </tfoot>
-                            <tbody>
-                            {% for event in events %}
+                        <div  class="wrapper table-responsive m-auto">
+                            <table  id="table" class="table table-striped">
+                                <thead>
                                 <tr>
-                                    <td>{{ event.id }}</td>
-                                    <td>{{ event.title }}</td>
-                                    <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
-                                    <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
-                                    <td>{{ event.description }}</td>
-                                    <td>{{ event.allDay ? 'Yes' : 'No' }}</td>
-                                    <td>{{ event.backgroundColor }}</td>
-                                    <td>{{ event.textColor }}</td>
-                                    <td>
-                                        <div class="d-flex ">
-                                            <a class="btn  border-primary m-2" href="{{ path('app_agenda_show', {'id': event.id}) }}"><i class="fa-solid fa-eye"></i>
-                                            </a>
-
-                                            <a class="btn border-warning m-2" href="{{ path('app_agenda_edit', {'id': event.id}) }}">
-                                                <i class="fa-solid fa-pencil"></i>
-                                            </a>
-
-                                            {{ include('agenda/_delete_form.html.twig') }}
-                                        </div>
-                                    </td>
+                                    <th>Id</th>
+                                    <th>Title</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th>Description</th>
+                                    <th>All_day</th>
+                                    <th>Background_color</th>
+                                    <th>Text_color</th>
+                                    <th>actions</th>
                                 </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="10">no records found</td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                {% for event in events %}
+                                    <tr>
+                                        <td>{{ event.id }}</td>
+                                        <td>{{ event.title }}</td>
+                                        <td>{{ event.start ? event.start|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td>{{ event.end ? event.end|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td>{{ event.description }}</td>
+                                        <td>{{ event.allDay ? 'Yes' : 'No' }}</td>
+                                        <td>{{ event.backgroundColor }}</td>
+                                        <td>{{ event.textColor }}</td>
+                                        <td>
+                                            <div class="d-flex ">
+                                                <a class="btn  border-primary m-2" href="{{ path('app_agenda_show', {'id': event.id}) }}"><i class="fa-solid fa-eye"></i>
+                                                </a>
+
+                                                <a class="btn border-warning m-2" href="{{ path('app_agenda_edit', {'id': event.id}) }}">
+                                                    <i class="fa-solid fa-pencil"></i>
+                                                </a>
+
+                                                {{ include('agenda/_delete_form.html.twig') }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="10">no records found</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 
@@ -334,6 +358,8 @@
 
             calendar.render()
         }
+
     </script>
+
 </body>
 </html>
