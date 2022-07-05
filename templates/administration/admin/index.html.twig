@@ -199,12 +199,25 @@
                                                         <span>{{ role }}</span>
                                                     {% endfor %}
                                                 </td>
+                                                <td>
+                                                    <div class="d-flex ">
+                                                        <a class="btn  border-primary m-2" href="{{ path('app_user_show', {'id': user.id}) }}"><i class="fa-solid fa-eye"></i>
+                                                        </a>
 
-                                            </tr>
-                                            <tr>
-                                                <td colspan="10">no records found</td>
+                                                        <a class="btn border-warning m-2" href="{{ path('app_user_edit', {'id': user.id}) }}">
+                                                            <i class="fa-solid fa-pencil"></i>
+                                                        </a>
+
+                                                        {{ include('administration/admin/_delete_user_form.html.twig') }}
+                                                    </div>
+                                                </td>
                                             </tr>
                                         {% endfor %}
+                                        {% if not users %}
+                                        <tr>
+                                            <td colspan="10">no records found</td>
+                                        </tr>
+                                        {% endif %}
                                         </tbody>
                                     </table>
                                 </div>
@@ -269,10 +282,12 @@
                                             </div>
                                         </td>
                                     </tr>
+                                {% endfor %}
+                                {% if not events %}
                                     <tr>
                                         <td colspan="10">no records found</td>
                                     </tr>
-                                {% endfor %}
+                                {% endif %}
                                 </tbody>
                             </table>
                         </div>

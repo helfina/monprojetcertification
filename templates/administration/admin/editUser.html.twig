@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+   <h1>edit user</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn border-success m-2"><i class="fa-solid fa-floppy-disk"></i> {{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+{% endblock %}
+

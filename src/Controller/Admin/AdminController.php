@@ -9,9 +9,10 @@ use App\Repository\AgendaRepository;
 use App\Repository\CalendrierVacScolaireRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class AdminController extends AbstractController
 {
@@ -35,37 +36,6 @@ class AdminController extends AbstractController
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
 
             $response = curl_exec($ch);
-            $donnees = json_decode($response);
-
-            foreach ($donnees as $eventVac) {
-
-                $calendrierVacScolaire = new CalendrierVacScolaire();
-                $calendrierVacScolaire->setDescription($eventVac->description);
-                $calendrierVacScolaire->setPopulation($eventVac->population);
-                $calendrierVacScolaire->setStartDate(new \DateTime($eventVac->start_date));
-                $calendrierVacScolaire->setEndDate(new \DateTime($eventVac->end_date));
-                $calendrierVacScolaire->setLocation($eventVac->location);
-                $calendrierVacScolaire->setZones($eventVac->zones);
-                $calendrierVacScolaire->setAnneeScolaire($eventVac->annee_scolaire);
-                switch ($eventVac->zones){
-                    case "Corse":
-                        $calendrierVacScolaire->setBackColor('#ffea00');
-                    case "Zone A":
-                        $calendrierVacScolaire->setBackColor('#BC3908');
-                    case "Zone B":
-                        $calendrierVacScolaire->setBackColor('#76ff03');
-                    case "Zone C":
-                        $calendrierVacScolaire->setBackColor('#00e676');
-                    default :
-                        $calendrierVacScolaire->setBackColor('#d84315');
-                }
-
-                // si les date et la zone est differente alors tu enregistre en bdd
-                if($eventVac->start_date != $calendrierVacScolaire->getStartDate() && $eventVac->end_date != $calendrierVacScolaire->getEndDate() && $eventVac->zones != $calendrierVacScolaire->getZones()){
-                 //   dd($calendrierVacScolaire);
-                    $vacScolaireRepository->add($calendrierVacScolaire, true);
-                }
-            }
 
             if (curl_errno($ch)) {
                 echo curl_error($ch);
@@ -75,7 +45,38 @@ class AdminController extends AbstractController
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_code == intval(200)) {
                 // echo $response;
-                //dump($response);
+
+                $donnees = json_decode($response);
+                //dump($donnees);
+                foreach ($donnees as $eventVac) {
+
+                    $calendrierVacScolaire = new CalendrierVacScolaire();
+                    $calendrierVacScolaire->setDescription($eventVac->description);
+                    $calendrierVacScolaire->setPopulation($eventVac->population);
+                    $calendrierVacScolaire->setStartDate(new \DateTime($eventVac->start_date));
+                    $calendrierVacScolaire->setEndDate(new \DateTime($eventVac->end_date));
+                    $calendrierVacScolaire->setLocation($eventVac->location);
+                    $calendrierVacScolaire->setZones($eventVac->zones);
+                    $calendrierVacScolaire->setAnneeScolaire($eventVac->annee_scolaire);
+                    switch ($eventVac->zones){
+                        case "Corse":
+                            $calendrierVacScolaire->setBackColor('#ffea00');
+                        case "Zone A":
+                            $calendrierVacScolaire->setBackColor('#BC3908');
+                        case "Zone B":
+                            $calendrierVacScolaire->setBackColor('#76ff03');
+                        case "Zone C":
+                            $calendrierVacScolaire->setBackColor('#00e676');
+                        default :
+                            $calendrierVacScolaire->setBackColor('#d84315');
+                    }
+                    //dd($calendrierVacScolaire->getStartDate());
+                    // si les date et la zone est differente alors tu enregistre en bdd
+                    if($eventVac->start_date != $calendrierVacScolaire->getStartDate() && $eventVac->end_date != $calendrierVacScolaire->getEndDate() && $eventVac->zones != $calendrierVacScolaire->getZones()){
+                          dd($calendrierVacScolaire);
+                       // $calendrierVacScolaireRepository->add($calendrierVacScolaire, true);
+                    }
+                }
 
             } else {
                 echo "Ressource introuvable : " . $http_code;
@@ -126,5 +127,73 @@ class AdminController extends AbstractController
             'data'=>$data,
             'users'=>$users
         ]);
+    }
+
+
+    #[Route('/admin/users/{id}', name: 'app_user_show')]
+    public function show(User $user): Response
+    {
+        return $this->render('administration/admin/showUser.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/admin/users_edit/{id}', name: 'app_user_edit')]
+    public function edit(Request $request, User $user, UserRepository $userRepository, UserPasswordHasherInterface $userPasswordHasher): Response
+    {
+        $form = $this->createForm(\App\Form\UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //!TODO revoir la gestion de nouveau mdp
+            $NewPass = $form->get('password')->getData();
+            if(isset($NewPass)){
+                dump($NewPass);
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+            }else{
+                $oldPass = $user->getPassword();
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $oldPass
+                    )
+                );
+            }
+            // encode the plain password
+
+            $roles = $form->get('roles')->getData();
+
+            if(in_array('ROLE_ADMIN', $roles, true) || in_array('ROLE_USER', $roles, true)){
+               $role = array_unique($roles);
+               $user->setRoles($role); dump($roles, $role);
+            }
+
+
+            $userRepository->add($user, true);
+
+            return $this->redirectToRoute('app_admin', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('administration/admin/editUser.html.twig', [
+            'user' => $user,
+            'form' => $form
+        ]);
+    }
+
+    #[Route('/admin/delete_user/{id}', name: 'app_user_delete')]
+    public function delete(Request $request, User $user, UserRepository $userRepository): Response
+    {
+        // or add an optional message - seen by developers
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'User tried to access a page without having ROLE_ADMIN');
+
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
+            $userRepository->remove($user, true);
+        }
+
+        return $this->redirectToRoute('app_admin', [], Response::HTTP_SEE_OTHER);
     }
 }
