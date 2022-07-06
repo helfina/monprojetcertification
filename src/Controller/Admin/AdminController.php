@@ -49,33 +49,38 @@ class AdminController extends AbstractController
                 $donnees = json_decode($response);
                 //dump($donnees);
                 foreach ($donnees as $eventVac) {
+                    if(empty($calendrierVacScolaire)){
+                        $calendrierVacScolaire = new CalendrierVacScolaire();
+                        $calendrierVacScolaire->setDescription($eventVac->description);
+                        $calendrierVacScolaire->setPopulation($eventVac->population);
+                        $calendrierVacScolaire->setStartDate(new \DateTime($eventVac->start_date));
+                        $calendrierVacScolaire->setEndDate(new \DateTime($eventVac->end_date));
+                        $calendrierVacScolaire->setLocation($eventVac->location);
+                        $calendrierVacScolaire->setZones($eventVac->zones);
+                        $calendrierVacScolaire->setAnneeScolaire($eventVac->annee_scolaire);
+                        switch ($eventVac->zones){
+                            case "Corse":
+                                $calendrierVacScolaire->setBackColor('#ffea00');
+                            case "Zone A":
+                                $calendrierVacScolaire->setBackColor('#BC3908');
+                            case "Zone B":
+                                $calendrierVacScolaire->setBackColor('#76ff03');
+                            case "Zone C":
+                                $calendrierVacScolaire->setBackColor('#00e676');
+                            default :
+                                $calendrierVacScolaire->setBackColor('#d84315');
+                        }
+                        //!todo verifier pkoi l'update / insert ne se fait pas
 
-                    $calendrierVacScolaire = new CalendrierVacScolaire();
-                    $calendrierVacScolaire->setDescription($eventVac->description);
-                    $calendrierVacScolaire->setPopulation($eventVac->population);
-                    $calendrierVacScolaire->setStartDate(new \DateTime($eventVac->start_date));
-                    $calendrierVacScolaire->setEndDate(new \DateTime($eventVac->end_date));
-                    $calendrierVacScolaire->setLocation($eventVac->location);
-                    $calendrierVacScolaire->setZones($eventVac->zones);
-                    $calendrierVacScolaire->setAnneeScolaire($eventVac->annee_scolaire);
-                    switch ($eventVac->zones){
-                        case "Corse":
-                            $calendrierVacScolaire->setBackColor('#ffea00');
-                        case "Zone A":
-                            $calendrierVacScolaire->setBackColor('#BC3908');
-                        case "Zone B":
-                            $calendrierVacScolaire->setBackColor('#76ff03');
-                        case "Zone C":
-                            $calendrierVacScolaire->setBackColor('#00e676');
-                        default :
-                            $calendrierVacScolaire->setBackColor('#d84315');
+                        $calendrierVacScolaireRepository->add($calendrierVacScolaire, true);
+                        // si les date et la zone est differente alors tu enregistre en bdd
+
+                    }elseif($eventVac->start_date != $calendrierVacScolaire->getStartDate() && $eventVac->end_date != $calendrierVacScolaire->getEndDate() && $eventVac->zones != $calendrierVacScolaire->getZones()){
+                        // dd($calendrierVacScolaire);
+                        $calendrierVacScolaireRepository->add($calendrierVacScolaire, true);
                     }
-                    //dd($calendrierVacScolaire->getStartDate());
-                    // si les date et la zone est differente alors tu enregistre en bdd
-                    if($eventVac->start_date != $calendrierVacScolaire->getStartDate() && $eventVac->end_date != $calendrierVacScolaire->getEndDate() && $eventVac->zones != $calendrierVacScolaire->getZones()){
-                          dd($calendrierVacScolaire);
-                       // $calendrierVacScolaireRepository->add($calendrierVacScolaire, true);
-                    }
+
+
                 }
 
             } else {
