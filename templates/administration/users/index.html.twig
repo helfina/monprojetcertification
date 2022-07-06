@@ -1,8 +1,31 @@
-{% extends 'base.html.twig' %}
+{% extends '/administration/baseAdmin.html.twig' %}
 
 {% block title %}Mon profil{% endblock %}
 
-{% block body %}
-    <h1>Mon profil</h1>
-    <h2>Hello {{ app.user.email }}</h2>
+{% block contentAdmin %}
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-area me-1"></i>
+                         Mes infos
+                </div>
+                <div class="card-body">
+                       infos
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar me-1"></i>
+                    apercu calendrier event
+                </div>
+                <div class="card-body">
+                    <div id="calendrier" class="m-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
