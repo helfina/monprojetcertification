@@ -67,7 +67,7 @@ class AgendaType extends AbstractType
                 ],
             ])
             ->add('text_color', ColorType::class,[
-                'label' => 'Couleur de fond',
+                'label' => 'Couleur du text',
 
                 'row_attr' => [
                     'class' => 'form-control m-2',
