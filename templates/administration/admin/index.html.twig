@@ -3,8 +3,8 @@
 {% block title %}Mon profil{% endblock %}
 
 {% block contentAdmin %}
-    <div class="row">
-        <div class="col-xl-6">
+    <section class="row">
+        <article class="col-xl-6">
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-chart-area me-1"></i>
@@ -55,8 +55,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-xl-6">
+        </article>
+        <article class="col-xl-6">
             <div class="card mb-4">
                 <div class="card-header">
                     <i class="fas fa-chart-bar me-1"></i>
@@ -66,10 +66,10 @@
                     <div id="calendrier" class="m-2"></div>
                 </div>
             </div>
-        </div>
-    </div>
+        </article>
+    </section>
     {#      Vue sur la liste des evenement de l'adenda   #}
-    <div class="card mb-4">
+    <section class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
             Liste des evenement de l'agenda
@@ -124,6 +124,6 @@
                 </table>
             </div>
         </div>
-    </div>
+    </section>
 
 {% endblock %}

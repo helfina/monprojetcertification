@@ -2,3 +2,17 @@
     width: 80%;
     margin: 0 auto;
 }
+
+.fc .fc-button-group{
+    font-size: small;
+}
+
+#fc-dom-1{
+    font-size:small;
+    font-weight: bold;
+}
+
+.fc-daygrid-week-number{
+    font-size: small;
+    color: #000000;
+}
