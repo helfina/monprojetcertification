@@ -24,7 +24,7 @@
                         end: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
                     },
                     events: {{ data|raw }},
-                    // editable: true,
+                    editable: true,
                     dayMaxEvents: true,
                     eventResizableFromStart: true,
                     navLinks: true, // can click day/week names to navigate views
@@ -32,28 +32,28 @@
                 });
 
                 // deplacement au clicker glisser des evenement fonctionelle
-                // calendar.on('eventChange', (e) => {
-                //     console.log(e);
-                //
-                //     //requete ajax pour enregistrer les donnee en bdd a chaque deplacement
-                //     let url = `/ajax/edit/${e.event.id}`;
-                //     console.log(url);
-                //     let donnees = {
-                //         "id" : e.event.id,
-                //         "title": e.event.title,
-                //         "description": e.event.extendedProps.description,
-                //         "start": e.event.start,
-                //         "end": e.event.end,
-                //         "backgroundColor": e.event.backgroundColor,
-                //         "textColor": e.event.textColor,
-                //         "all_day": e.event.allDay
-                //     }
-                //
-                //     let xhr = new XMLHttpRequest
-                //     xhr.open("PUT", url)
-                //     xhr.send(JSON.stringify(donnees))
-                //
-                // });
+                calendar.on('eventChange', (e) => {
+                    console.log(e);
+
+                    //requete ajax pour enregistrer les donnee en bdd a chaque deplacement
+                    let url = `/ajax/edit/${e.event.id}`;
+                    console.log(url);
+                    let donnees = {
+                        "id" : e.event.id,
+                        "title": e.event.title,
+                        "description": e.event.extendedProps.description,
+                        "start": e.event.start,
+                        "end": e.event.end,
+                        "backgroundColor": e.event.backgroundColor,
+                        "textColor": e.event.textColor,
+                        "all_day": e.event.allDay
+                    }
+
+                    let xhr = new XMLHttpRequest
+                    xhr.open("PUT", url)
+                    xhr.send(JSON.stringify(donnees))
+
+                });
 
                 calendar.render()
             }
