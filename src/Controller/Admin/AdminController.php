@@ -58,6 +58,7 @@ class AdminController extends AbstractController
                         $calendrierVacScolaire->setLocation($eventVac->location);
                         $calendrierVacScolaire->setZones($eventVac->zones);
                         $calendrierVacScolaire->setAnneeScolaire($eventVac->annee_scolaire);
+
                         switch ($eventVac->zones){
                             case "Corse":
                                 $calendrierVacScolaire->setBackColor('#ffea00');
@@ -70,6 +71,20 @@ class AdminController extends AbstractController
                             default :
                                 $calendrierVacScolaire->setBackColor('#d84315');
                         }
+
+                        if($eventVac->zones = "Corse"){
+                            $calendrierVacScolaire->setBackColor('#ffea00');
+                        }
+                        if($eventVac->zones = "Zone A"){
+                            $calendrierVacScolaire->setBackColor('#ffea00');
+                        }
+                        if($eventVac->zones = "Zone B"){
+                            $calendrierVacScolaire->setBackColor('#ffea00');
+                        }
+                        if($eventVac->zones = "Corse"){
+                            $calendrierVacScolaire->setBackColor('#ffea00');
+                        }
+
                         //!todo verifier pkoi l'update / insert ne se fait pas
 
                         $calendrierVacScolaireRepository->add($calendrierVacScolaire, true);
